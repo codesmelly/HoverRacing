@@ -85,6 +85,7 @@
             progressBarFull.style.width = `${100 * progress}%`;
         }).then((unityInstance) => {
             myGameInstance = unityInstance;
+            console.log(myGameInstance);
             loadingCover.style.display = "none";
         }).catch((message) => {
             alert(message);
