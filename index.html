@@ -85,6 +85,7 @@
             progressBarFull.style.width = `${100 * progress}%`;
         }).then((unityInstance) => {
             myGameInstance = unityInstance;
+            console.log(myGameInstance);
             loadingCover.style.display = "none";
         }).catch((message) => {
             alert(message);
@@ -95,10 +96,13 @@
     function initBridge() {
         const bridge = vkBridge.default;
         
+        console.log("init bridge");
         bridge.subscribe(eventHandler); 
 
         bridge.send("VKWebAppInit", {})
         .then(data => {
+          console.log("init bridge: Initialized");
+          console.log(data);
           myGameInstance.SendMessage('VkBridge', 'Initialized', JSON.stringify(data));  
         })  
         .catch(error => console.log(error));          
@@ -121,7 +125,7 @@
           break;
 
         case 'VKWebAppBannerAdClosedByUser':
-          myGameInstance.SendMessage('VkBridge', 'BannerClosedByUser', 'true');
+          myGameInstance.SendMessage('VkBridge', 'BannerClosedByUser');
           break;
 
         }
@@ -137,10 +141,12 @@
         bridge.send("VKWebAppGetLaunchParams", {})
         .then(data => {
           console.log(data);
+            console.log("LaunchParamsResult");
             myGameInstance.SendMessage('VkBridge', 'LaunchParamsResult', JSON.stringify(data));
         })  
         .catch(error => {
             console.log(error);
+            console.log("LaunchParamsResult2");
             myGameInstance.SendMessage('VkBridge', 'LaunchParamsResult', JSON.stringify(error));
         });     
     }
