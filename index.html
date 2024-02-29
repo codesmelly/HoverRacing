@@ -101,6 +101,7 @@
         bridge.send("VKWebAppInit", {})
         .then(data => {
           console.log("init bridge: Initialized");
+          console.log(data);
           myGameInstance.SendMessage('VkBridge', 'Initialized', JSON.stringify(data));  
         })  
         .catch(error => console.log(error));          
@@ -139,10 +140,12 @@
         bridge.send("VKWebAppGetLaunchParams", {})
         .then(data => {
           console.log(data);
+            console.log("LaunchParamsResult");
             myGameInstance.SendMessage('VkBridge', 'LaunchParamsResult', JSON.stringify(data));
         })  
         .catch(error => {
             console.log(error);
+            console.log("LaunchParamsResult2");
             myGameInstance.SendMessage('VkBridge', 'LaunchParamsResult', JSON.stringify(error));
         });     
     }
