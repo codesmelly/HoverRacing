@@ -95,10 +95,12 @@
     function initBridge() {
         const bridge = vkBridge.default;
         
+        console.log("init bridge");
         bridge.subscribe(eventHandler); 
 
         bridge.send("VKWebAppInit", {})
         .then(data => {
+          console.log("init bridge: Initialized");
           myGameInstance.SendMessage('VkBridge', 'Initialized', JSON.stringify(data));  
         })  
         .catch(error => console.log(error));          
