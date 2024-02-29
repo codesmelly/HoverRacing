@@ -85,24 +85,25 @@
             progressBarFull.style.width = `${100 * progress}%`;
         }).then((unityInstance) => {
             myGameInstance = unityInstance;
-            console.log(myGameInstance);
             loadingCover.style.display = "none";
         }).catch((message) => {
             alert(message);
         });
     };
+
+    var linkElement = document.createElement('a');
+    linkElement.id = 'link';
+    window.document.body.appendChild(linkElement);        
+    
     document.body.appendChild(script);
 
     function initBridge() {
         const bridge = vkBridge.default;
         
-        console.log("init bridge");
         bridge.subscribe(eventHandler); 
 
         bridge.send("VKWebAppInit", {})
         .then(data => {
-          console.log("init bridge: Initialized");
-          console.log(data);
           myGameInstance.SendMessage('VkBridge', 'Initialized', JSON.stringify(data));  
         })  
         .catch(error => console.log(error));          
@@ -125,7 +126,7 @@
           break;
 
         case 'VKWebAppBannerAdClosedByUser':
-          myGameInstance.SendMessage('VkBridge', 'BannerClosedByUser');
+          myGameInstance.SendMessage('VkBridge', 'BannerClosedByUser', 'true');
           break;
 
         }
@@ -141,12 +142,10 @@
         bridge.send("VKWebAppGetLaunchParams", {})
         .then(data => {
           console.log(data);
-            console.log("LaunchParamsResult");
             myGameInstance.SendMessage('VkBridge', 'LaunchParamsResult', JSON.stringify(data));
         })  
         .catch(error => {
             console.log(error);
-            console.log("LaunchParamsResult2");
             myGameInstance.SendMessage('VkBridge', 'LaunchParamsResult', JSON.stringify(error));
         });     
     }
@@ -293,6 +292,12 @@
         }
         
       }
+
+    function OpenUrl(url) {
+        var link = document.getElementById('link');
+        link.setAttribute('href', url);
+        link.click();
+    }
 
     function CustomSend(nameMethod, paramsJson){
         var obj = {};
